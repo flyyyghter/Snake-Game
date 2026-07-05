@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Hebi Run! 蛇 - Anime Snake Game</title>
+    <!-- Google Fonts for Cute and Modern Anime UI -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&family=Outfit:wght@100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="index.css">
+</head>
+<body>
+    <div id="app-container">
+        <!-- Main Menu / Start Screen -->
+        <div id="start-screen" class="menu-panel active">
+            <div class="logo-container">
+                <h1 class="game-title">Hebi Run! <span class="jp-char">蛇</span></h1>
+                <p class="game-subtitle">Neon Serpent Chase &bull; ヘビラン</p>
+            </div>
+
+            <!-- Character Selection -->
+            <div class="selection-section">
+                <h3 class="section-title">ВЫБЕРИ СВОЕГО ГЕРОЯ / SELECT CHARACTER</h3>
+                <div class="character-grid" id="character-selector">
+                    <div class="character-card active" data-char="sakura">
+                        <div class="char-avatar-wrapper pink-theme">
+                            <span class="char-avatar">🌸</span>
+                        </div>
+                        <div class="char-info">
+                            <h4 class="char-name">Mochi <span>(Sakura Spirit)</span></h4>
+                            <p class="char-desc">Уютный дух сакуры. Двигается плавно, оставляет цветочный след.</p>
+                            <div class="char-stats">
+                                <div class="stat-row"><span class="stat-label">СКОРОСТЬ (SPEED):</span> <span class="stat-bar"><span class="stat-fill" style="width: 40%"></span></span></div>
+                                <div class="stat-row"><span class="stat-label">РЫВОК (DASH COOLDOWN):</span> <span class="stat-bar"><span class="stat-fill" style="width: 60%"></span></span></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="character-card" data-char="cyber">
+                        <div class="char-avatar-wrapper neon-theme">
+                            <span class="char-avatar">⚡</span>
+                        </div>
+                        <div class="char-info">
+                            <h4 class="char-name">Ryu <span>(Cyber Ninja)</span></h4>
+                            <p class="char-desc">Шпион из Нео-Токио. Сверхбыстрый перезапуск рывка, неоновый след.</p>
+                            <div class="char-stats">
+                                <div class="stat-row"><span class="stat-label">СКОРОСТЬ (SPEED):</span> <span class="stat-bar"><span class="stat-fill" style="width: 90%"></span></span></div>
+                                <div class="stat-row"><span class="stat-label">РЫВОК (DASH COOLDOWN):</span> <span class="stat-bar"><span class="stat-fill" style="width: 95%"></span></span></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="character-card" data-char="magic">
+                        <div class="char-avatar-wrapper magic-theme">
+                            <span class="char-avatar">⭐</span>
+                        </div>
+                        <div class="char-info">
+                            <h4 class="char-name">Piko <span>(Magical Mascot)</span></h4>
+                            <p class="char-desc">Звёздный котик. Удвоенное время комбо и магический звёздный след.</p>
+                            <div class="char-stats">
+                                <div class="stat-row"><span class="stat-label">СКОРОСТЬ (SPEED):</span> <span class="stat-bar"><span class="stat-fill" style="width: 60%"></span></span></div>
+                                <div class="stat-row"><span class="stat-label">РЫВОК (DASH COOLDOWN):</span> <span class="stat-bar"><span class="stat-fill" style="width: 50%"></span></span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Theme Selection -->
+            <div class="selection-section">
+                <h3 class="section-title">ВЫБЕРИ ЛОКАЦИЮ / SELECT STAGE</h3>
+                <div class="theme-grid">
+                    <div class="theme-card active" data-theme="sakura">
+                        <div class="theme-preview" style="background-image: url('assets/bg_sakura.jpg');"></div>
+                        <div class="theme-name">Сакура / Sakura Garden</div>
+                    </div>
+                    <div class="theme-card" data-theme="tokyo">
+                        <div class="theme-preview" style="background-image: url('assets/bg_tokyo.jpg');"></div>
+                        <div class="theme-name">Нео-Токио / Neo-Tokyo</div>
+                    </div>
+                    <div class="theme-card" data-theme="magic">
+                        <div class="theme-preview" style="background-image: url('assets/bg_magic.jpg');"></div>
+                        <div class="theme-name">Фэнтези / Magic Candy</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action Area -->
+            <div class="action-bar">
+                <button id="start-btn" class="glowing-btn">ИГРАТЬ / START GAME</button>
+            </div>
+
+            <!-- Controls Guide -->
+            <div class="controls-guide">
+                <p><strong>Управление / Controls:</strong> <kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> или стрелочки для движения. <kbd>Space</kbd> для рывка (Dash). <kbd>P</kbd> или <kbd>Esc</kbd> — пауза.</p>
+            </div>
+        </div>
+
+        <!-- Game Screen -->
+        <div id="game-screen">
+            <!-- HUD -->
+            <div id="hud">
+                <div class="hud-left">
+                    <div class="score-display">
+                        <span class="label">SCORE</span>
+                        <span id="current-score" class="value">00000</span>
+                    </div>
+                    <div class="combo-container">
+                        <div class="combo-text">COMBO <span id="combo-multiplier">x1</span></div>
+                        <div class="combo-track">
+                            <div id="combo-bar"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="hud-center">
+                    <div class="active-powerup" id="powerup-display">
+                        <span class="powerup-icon">🔥</span>
+                        <span class="powerup-timer" id="powerup-timer">10s</span>
+                    </div>
+                </div>
+
+                <div class="hud-right">
+                    <div class="score-display">
+                        <span class="label">HIGH SCORE</span>
+                        <span id="high-score" class="value">00000</span>
+                    </div>
+                    <div class="dash-container">
+                        <div class="dash-text">DASH METER</div>
+                        <div class="dash-track">
+                            <div id="dash-bar"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Game Canvas Container -->
+            <div id="canvas-container">
+                <canvas id="game-canvas" width="600" height="600"></canvas>
+            </div>
+
+            <!-- On-Screen Controller (shown on touch devices) -->
+            <div id="touch-controller">
+                <div class="dpad-container">
+                    <button class="dpad-btn up" id="ctrl-up">▲</button>
+                    <button class="dpad-btn left" id="ctrl-left">◀</button>
+                    <button class="dpad-btn right" id="ctrl-right">▶</button>
+                    <button class="dpad-btn down" id="ctrl-down">▼</button>
+                    <div class="dpad-center"></div>
+                </div>
+                <button id="ctrl-dash" class="touch-dash-btn">DASH</button>
+            </div>
+
+            <!-- Pause button for touch screens -->
+            <button id="touch-pause-btn" class="circle-btn">⏸</button>
+        </div>
+
+        <!-- Pause Overlay -->
+        <div id="pause-overlay" class="overlay-panel">
+            <div class="overlay-content">
+                <h2 class="overlay-title">ПАУЗА / PAUSE</h2>
+                <div class="overlay-buttons">
+                    <button id="resume-btn" class="glowing-btn secondary">ПРОДОЛЖИТЬ / RESUME</button>
+                    <button id="restart-btn" class="glowing-btn secondary">ЗАНОВО / RESTART</button>
+                    <button id="menu-btn" class="glowing-btn secondary">В МЕНЮ / MAIN MENU</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Game Over Visual Novel Cut-in Screen -->
+        <div id="game-over-overlay" class="overlay-panel">
+            <div class="vn-cutin-wrapper">
+                <!-- Chibi character image or rich CSS render -->
+                <div class="chibi-character-container">
+                    <div class="chibi-character" id="vn-chibi">🌸</div>
+                    <!-- Speech Bubble -->
+                    <div class="vn-bubble">
+                        <div class="vn-char-name" id="vn-name">Mochi</div>
+                        <p class="vn-text" id="vn-dialogue">О нет, Сэмпай! Мы врезались! Давай попробуем еще раз? 🥺</p>
+                    </div>
+                </div>
+
+                <div class="stats-panel">
+                    <h2 class="game-over-title">КОНЕЦ ИГРЫ / GAME OVER</h2>
+                    <div class="stats-summary">
+                        <div class="stat-item">
+                            <span class="stat-name">ИТОГОВЫЙ СЧЕТ / FINAL SCORE</span>
+                            <span class="stat-val" id="final-score">00000</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-name">МАКС. КОМБО / MAX COMBO</span>
+                            <span class="stat-val" id="final-combo">x5</span>
+                        </div>
+                        <div class="stat-item" id="new-record-badge" style="display: none;">
+                            <span class="badge">NEW RECORD! 👑</span>
+                        </div>
+                    </div>
+
+                    <div class="overlay-buttons">
+                        <button id="retry-btn" class="glowing-btn">ПОПЫТКА №2 / RETRY</button>
+                        <button id="go-menu-btn" class="glowing-btn secondary">В МЕНЮ / MENU</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script Import -->
+    <script src="game.js"></script>
+</body>
+</html>
