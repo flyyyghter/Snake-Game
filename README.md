@@ -1,6 +1,6 @@
 # Anime Snake Game (Hebi Run! 蛇)
 
-Навайбкодил с помощью Google Antigravity model Gemini 3.5 flash (high) и сделано за один промт чисто по фану. 😎
+Навайбкодил и выложил на гитхаб с помощью Google Antigravity model Gemini 3.5 flash (high) и сделано за один промт чисто по фану.
 
 ## Особенности
 - Красивый аниме-стиль (Светящиеся элементы, неоновые эффекты)
